@@ -2,9 +2,11 @@
   (:use
     [clojure.core.incubator :only [defmacro-]]
     [clojure.data.json :only [json-str]]
-    [misaki.util.macro :only [clone-macros]])
+    [misaki.util.macro :only [clone-macros]]
+    [misaki.config :only [load-config]])
   (:require
     compojure.core
+    [compojure.route :as route]
     [hiccup.core :as hiccup]
     [hiccup.page-helpers :as page]
     [ring.util.response :as response]))
@@ -37,7 +39,7 @@
 
 ; }}}
 
-; compojure GET, POST, PUT, DELETE, HEAD, ANY wrapper {{{
+; compojure route wrapper {{{
 (defn compile-html [res] (if (vector? res) (html res) res))
 
 (defmacro GET [path args & body]
@@ -57,6 +59,8 @@
 
 (defmacro ANY [path args & body]
   `(compojure.core/ANY ~path ~args (compile-html (do ~@body))))
+
+(def not-found route/not-found)
 ; }}}
 
 (defn redirect [url & opt]
@@ -64,3 +68,6 @@
     (if (nil? opt)
       loc
       (merge loc (apply hash-map opt)))))
+
+; application config file (config.properties)
+(def ^:dynamic *config* (load-config "config"))

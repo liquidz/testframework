@@ -1,9 +1,11 @@
 (ns misaki.view
-  (:use misaki.util)
+  (:use
+    [misaki :only [*config*]]
+    [misaki.util :only [aif]])
   (:require [hiccup.page-helpers :as page]))
 
-; 設定ファイルで指定できるようにしたい
-(def ^:dynamic *default-title* "no title")
+(def ^:dynamic *default-title*
+  (get *config* :title "no title"))
 
 (defn js [& args]
   (apply page/include-js args))
@@ -30,6 +32,7 @@
      [:head
       (aif (:charset opt) (charset it) (charset))
       (aif (:css opt) (css it))
+      [:title (aif (:title opt) it *default-title*)]
       (aif (:title opt) [:title it])
       (aif (:head opt) it)]
      [:body contents]]))
