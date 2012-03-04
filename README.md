@@ -6,6 +6,7 @@ library package to build web application easily
  * compojure
  * hiccup
  * congomongo
+ * clojureql
 
 ## Usage
 

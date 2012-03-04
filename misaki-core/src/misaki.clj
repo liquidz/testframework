@@ -12,7 +12,7 @@
     [ring.util.response :as response]))
 
 ; application config file (config.properties)
-(def ^:dynamic *config* (load-config "config"))
+(def ^{:dynamic true} *config* (load-config "config"))
 (def debug? (= "true" (:debug *config*)))
 
 ; clone

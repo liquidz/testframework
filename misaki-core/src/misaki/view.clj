@@ -4,7 +4,7 @@
     [misaki.util :only [aif]])
   (:require [hiccup.page-helpers :as page]))
 
-(def ^:dynamic *default-title*
+(def ^{:dynamic true} *default-title*
   (get *config* :default-title "no title"))
 
 (defn js [& args]
