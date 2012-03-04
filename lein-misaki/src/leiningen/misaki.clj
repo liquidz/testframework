@@ -8,11 +8,16 @@
 (def _proj (atom ""))
 
 (def ^{:dynamic true} *directories*
-  ["__PROJ__/src/__PROJ__" "__PROJ__/test/__PROJ__/test"])
+  ["__PROJ__/public"
+   "__PROJ__/src/__PROJ__"
+   "__PROJ__/test/__PROJ__/test"])
 
 (def ^{:dynamic true} *files*
   ["template/.gitignore" "template/project.clj" "template/config.properties" "template/README.md"
-   "template/src/server.clj" "template/src/__PROJ__/app.clj"
+   "template/public/static.txt"
+   "template/src/server.clj"
+   "template/src/404.clj"
+   "template/src/__PROJ__/app.clj"
    "template/test/__PROJ__/test/app.clj"])
 
 ;;From the maginalia source: http://fogus.me/fun/marginalia/ {{{

@@ -6,9 +6,12 @@
     [compojure.handler :only [site api]]
     [compojure.route :only [files not-found]]))
 
+(load "404")
+
 (defroutes handler
   (site #(misaki-app %))
-  (files "/"))
+  (files "/")
+  (not-found (not-found-page)))
 
 (defn -main []
   (let [port (Integer/parseInt (get (System/getenv) "PORT" "8080"))]

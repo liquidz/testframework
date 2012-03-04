@@ -71,8 +71,6 @@
 
 (defmacro ANY [path args & body]
   `(compojure.core/ANY ~path ~args (compile-html (do ~@body))))
-
-(def not-found route/not-found)
 ; }}}
 
 (defn redirect [url & opt]

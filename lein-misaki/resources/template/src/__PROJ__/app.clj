@@ -21,7 +21,5 @@
         (redirect "/" :flash err)
         (layout [:div
                        [:p (str "a = " a)]
-                       [:p (str "b = " b)]]))))
-
-  (not-found "404"))
+                       [:p (str "b = " b)]])))))
 
