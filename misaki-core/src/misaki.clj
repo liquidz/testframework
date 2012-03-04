@@ -1,4 +1,5 @@
 (ns misaki
+  "misaki core"
   (:use
     [clojure.core.incubator :only [defmacro-]]
     [clojure.data.json :only [json-str]]
