@@ -6,3 +6,4 @@
 /checkouts
 /.lein-failures
 /.lein-deps-sum
+/src/example

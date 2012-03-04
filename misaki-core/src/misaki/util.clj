@@ -1,9 +1,16 @@
-(ns misaki.util)
+(ns misaki.util
+  (:require [clojure.string :as str]))
 
 (defmacro aif [pred then-part & [else-part]]
   `(if-let [~'it ~pred]
     ~then-part
     ~else-part))
+
+(defn get-env
+  ([name] (get-env name nil))
+  ([name default-value]
+   (let [_name (str/replace-first name "$" "")]
+     (get (System/getenv) _name default-value))))
 
 
 ;(defn- head-tag? [tag]

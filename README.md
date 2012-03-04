@@ -5,6 +5,7 @@ library package to build web application easily
  * ring
  * compojure
  * hiccup
+ * congomongo
 
 ## Usage
 

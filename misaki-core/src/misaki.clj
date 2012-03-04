@@ -11,6 +11,10 @@
     [hiccup.page-helpers :as page]
     [ring.util.response :as response]))
 
+; application config file (config.properties)
+(def ^:dynamic *config* (load-config "config"))
+(def debug? (= "true" (:debug *config*)))
+
 ; clone
 (clone-macros compojure.core defroutes)
 
@@ -18,7 +22,6 @@
   "define default application routes"
   [& routes]
   (concat '(defroutes misaki-app) routes))
-
 
 ; =OUTPUT FUNCTIONS= {{{
 ; hiccup html compiler {{{
@@ -40,7 +43,13 @@
 ; }}}
 
 ; compojure route wrapper {{{
-(defn compile-html [res] (if (vector? res) (html res) res))
+(defn compile-html [res]
+  (if (vector? res)
+    (case (get *config* :default-output "html5")
+      "html5" (html res)
+      "xhtml" (xhtml res)
+      "html4" (html4 res))
+     res))
 
 (defmacro GET [path args & body]
   `(compojure.core/GET ~path ~args (compile-html (do ~@body))))
@@ -69,5 +78,4 @@
       loc
       (merge loc (apply hash-map opt)))))
 
-; application config file (config.properties)
-(def ^:dynamic *config* (load-config "config"))
+

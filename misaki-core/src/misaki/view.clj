@@ -5,7 +5,7 @@
   (:require [hiccup.page-helpers :as page]))
 
 (def ^:dynamic *default-title*
-  (get *config* :title "no title"))
+  (get *config* :default-title "no title"))
 
 (defn js [& args]
   (apply page/include-js args))
