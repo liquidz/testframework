@@ -15,6 +15,9 @@
 (def ^{:dynamic true} *config* (load-config "config"))
 (def debug? (= "true" (:debug *config*)))
 
+; validation
+(load "misaki/validation")
+
 ; clone
 (clone-macros compojure.core defroutes)
 

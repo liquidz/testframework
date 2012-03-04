@@ -1,4 +1,5 @@
-(ns misaki.validation)
+(in-ns 'misaki)
+;(ns misaki.validation)
 
 (defmacro defvalidate [name params default-msg pred-body]
   (let [data-name (first params)

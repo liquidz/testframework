@@ -1,10 +1,6 @@
 (ns __PROJ__.app
-  (:use
-    misaki
-    misaki.view
-    misaki.validation
-    )
-  )
+  (:use misaki
+        misaki.view))
 
 (defapp
   (GET "/" {flash :flash}
@@ -27,6 +23,5 @@
                        [:p (str "a = " a)]
                        [:p (str "b = " b)]]))))
 
-  (not-found "404")
-  )
+  (not-found "404"))
 
