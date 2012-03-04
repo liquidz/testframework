@@ -16,8 +16,8 @@
 ;                     ; for mysql
 ;                     [mysql/mysql-connector-java "5.1.13"]
 ;                     ]
-;  :ring {:handler example.server/handler}
-;  :main example.server
+;  :ring {:handler server/handler}
+;  :main server
   ; /for example
 
   :aot [misaki])

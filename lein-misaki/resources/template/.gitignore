@@ -6,5 +6,3 @@
 /checkouts
 /.lein-failures
 /.lein-deps-sum
-/src/example
-/src/server.clj

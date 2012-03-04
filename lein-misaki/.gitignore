@@ -3,8 +3,6 @@
 /lib
 /classes
 /native
-/checkouts
 /.lein-failures
+/checkouts
 /.lein-deps-sum
-/src/example
-/src/server.clj
