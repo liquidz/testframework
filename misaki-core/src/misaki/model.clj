@@ -36,8 +36,8 @@
         (create-collection! col-name)))))
 ; }}}
 
-
-(when (and (= "mongo" (:db *config*)) (:mongo-url *config*))
+(when (and (nil? (:mongo *mongo-config*))
+           (= "mongo" (:db *config*)) (:mongo-url *config*))
   (init-mongodb (:mongo-url *config*))
   (aif (:mongo-collections *config*)
        (create-mongo-collections (map keyword (split it #"\s*,\s*")))))

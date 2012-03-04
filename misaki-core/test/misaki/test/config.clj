@@ -3,8 +3,6 @@
         [misaki :only [*config*]]))
 
 (deftest config-test
-  (println *config*)
-
   (is (not (nil? *config*)))
   (is (nil? (:dummy *config*)))
   ; can read properties
