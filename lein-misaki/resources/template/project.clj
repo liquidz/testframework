@@ -1,4 +1,4 @@
-(defproject __PROJ__ "0.0.2"
+(defproject __PROJ__ "1.0.0-SNAPSHOT"
   :description "leiningen plugin for managing \"misaki\" projects"
   :dependencies [[org.clojure/clojure "1.3.0"]
                  [compojure "1.0.1"]
