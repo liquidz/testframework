@@ -22,7 +22,7 @@
 ;                     ]
 ;  :ring {:handler server/handler}
 ;  :main server
-  :codox {:exclude [example.app server]}
+;  :codox {:exclude [example.app server]}
   ; /for example
 
 

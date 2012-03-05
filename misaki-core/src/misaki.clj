@@ -1,5 +1,5 @@
 (ns misaki
-  "misaki core"
+  "misaki library package core"
   (:use
     [clojure.core.incubator :only [defmacro-]]
     [clojure.data.json :only [json-str]]
@@ -13,41 +13,56 @@
     [ring.util.response :as response]))
 
 ; application config file (config.properties)
-(def ^{:dynamic true} *config* (load-config "config"))
+(def ^{:dynamic true
+       :doc "config property data (config.properties)"}
+  *config* (load-config "config"))
+
 (def debug? (= "true" (:debug *config*)))
 
-; validation
+; load validation
 (load "misaki/validation")
 
-; clone
+; clone compojure.core/defroutes
 (clone-macros compojure.core defroutes)
 
 (defmacro defapp
-  "define default application routes"
+  "define default application routes
+
+  this is alias for:
+    (defroutes misaki-app
+      (GET ...))"
   [& routes]
   (concat '(defroutes misaki-app) routes))
 
 ; =OUTPUT FUNCTIONS= {{{
 ; hiccup html compiler {{{
-(defmacro html4 [& args]
+(defmacro html4
+  "compile shtml as HTML4"
+  [& args]
   `(page/html4 ~@args))
 
-(defmacro html [& args]
+(defmacro html
+  "compile shtml as HTML5"
+  [& args]
   `(page/html5 ~@args))
 
-(defmacro xhtml [& args]
+(defmacro xhtml
+  "compile shtml as XHTML"
+  [& args]
   `(page/xhtml ~@args))
 ; }}}
 
 ; json writer
-(def json json-str)
+(def ^{:doc "compile clojure data to JSON"} json json-str)
 
 ; xml writer
 
 ; }}}
 
 ; compojure route wrapper {{{
-(defn compile-html [res]
+(defn compile-html
+  "auto shtml compiler. output format is depend on (:default-output *config*)"
+  [res]
   (if (vector? res)
     (case (get *config* :default-output "html5")
       "html5" (html res)
@@ -55,26 +70,42 @@
       "html4" (html4 res))
      res))
 
-(defmacro GET [path args & body]
+(defmacro GET
+  "define GET route"
+  [path args & body]
   `(compojure.core/GET ~path ~args (compile-html (do ~@body))))
 
-(defmacro POST [path args & body]
+(defmacro POST
+  "define POST route"
+  [path args & body]
   `(compojure.core/POST ~path ~args (compile-html (do ~@body))))
 
-(defmacro PUT [path args & body]
+(defmacro PUT
+  "define PUT route"
+  [path args & body]
   `(compojure.core/PUT ~path ~args (compile-html (do ~@body))))
 
-(defmacro DELETE [path args & body]
+(defmacro DELETE
+  "define DELETE route"
+  [path args & body]
   `(compojure.core/DELETE ~path ~args (compile-html (do ~@body))))
 
-(defmacro HEAD [path args & body]
+(defmacro HEAD
+  "define HEAD route"
+  [path args & body]
   `(compojure.core/HEAD ~path ~args (compile-html (do ~@body))))
 
-(defmacro ANY [path args & body]
+(defmacro ANY
+  "define ANY route"
+  [path args & body]
   `(compojure.core/ANY ~path ~args (compile-html (do ~@body))))
 ; }}}
 
-(defn redirect [url & opt]
+(defn redirect
+  "redirect specified url
+
+  opt must be key-value pair, and merge to response map"
+  [url & opt]
   (let [loc (response/redirect url)]
     (if (nil? opt)
       loc

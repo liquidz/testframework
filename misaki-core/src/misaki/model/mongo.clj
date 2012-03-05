@@ -4,7 +4,9 @@
     somnium.congomongo
     [somnium.congomongo.config :only [*mongo-config*]]))
 
-(defn not-initialized? []
+(defn not-initialized?
+  "return whether mongodb is initialized or not"
+  []
   (nil? (:mongo *mongo-config*)))
 
 (defn init-mongodb [mongo-url]
@@ -14,7 +16,9 @@
       (mongo! :db (:db config) :host (:host config) :port (Integer. (:port config)))
       (authenticate (:user config) (:password config)))))
 
-(defn create-mongo-collections [collections]
+(defn create-mongo-collections
+  "create mongo collecions"
+  [collections]
   (doseq [col-name collections]
     (if-not (collection-exists? col-name)
       (create-collection! col-name))))

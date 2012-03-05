@@ -4,10 +4,14 @@
   (:require
     [clojureql.core :as sql]))
 
-(defn not-initialized? []
+(defn not-initialized?
+  "return whether mysql is initialized or not"
+  []
   (= {} @sql/global-connections))
 
-(defn init-mysql [db-url]
+(defn init-mysql
+  "initialize MySQL with DB url"
+  [db-url]
   (let [config (parse-db-url db-url)]
 
     (sql/open-global
