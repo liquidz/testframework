@@ -17,13 +17,18 @@
        :doc "config property data (config.properties)"}
   *config* (load-config "config"))
 
+(def develop? (= "develop" (:mode *config*)))
 (def debug? (= "true" (:debug *config*)))
 
 ; load validation
 (load "misaki/validation")
 
 ; clone compojure.core/defroutes
-(clone-macros compojure.core defroutes)
+(clone-macros
+  compojure.core
+  defroutes
+; GET POST PUT DELETE HEAD ANY
+  )
 
 (defmacro defapp
   "define default application routes
@@ -99,7 +104,16 @@
   "define ANY route"
   [path args & body]
   `(compojure.core/ANY ~path ~args (compile-html (do ~@body))))
+
+(defmacro GET-JSON
+  "define GET route with JSON response"
+  [path args & body]
+  `(compojure.core/GET ~path ~args (json (do ~@body))))
+(defmacro JSON
+  "alias GET-JSON"
+  [& args] `(GET-JSON ~@args))
 ; }}}
+
 
 (defn redirect
   "redirect specified url
@@ -110,5 +124,4 @@
     (if (nil? opt)
       loc
       (merge loc (apply hash-map opt)))))
-
 

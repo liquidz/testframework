@@ -8,4 +8,5 @@
 /.lein-deps-sum
 /src/example
 /src/server.clj
+/src/404.clj
 /doc
