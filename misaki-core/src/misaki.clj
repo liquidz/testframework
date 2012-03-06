@@ -10,7 +10,7 @@
     [compojure.route :as route]
     [hiccup.core :as hiccup]
     [hiccup.page-helpers :as page]
-    [ring.util.response :as response]))
+    [ring.util.response :as res]))
 
 ; application config file (config.properties)
 (def ^{:dynamic true
@@ -108,7 +108,11 @@
 (defmacro GET-JSON
   "define GET route with JSON response"
   [path args & body]
-  `(compojure.core/GET ~path ~args (json (do ~@body))))
+  `(compojure.core/GET ~path ~args
+     (res/content-type
+       (res/response (json (do ~@body)))
+       "application/json")))
+
 (defmacro JSON
   "alias GET-JSON"
   [& args] `(GET-JSON ~@args))
@@ -120,7 +124,7 @@
 
   opt must be key-value pair, and merge to response map"
   [url & opt]
-  (let [loc (response/redirect url)]
+  (let [loc (res/redirect url)]
     (if (nil? opt)
       loc
       (merge loc (apply hash-map opt)))))
