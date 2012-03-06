@@ -17,9 +17,11 @@
     (validate! (required? b) "b is required")
 
     (if (has-error?)
-      (do (validation-keep!)
+      (do (keep-validation!)
           (redirect "/"))
       (layout [:div
                [:p (str "a = " a)]
-               [:p (str "b = " b)]]))))
+               [:p (str "b = " b)]])))
+  
+  (JSON "/api" _ {:a 1 :b "2" :c [3 4]}))
 
