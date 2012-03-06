@@ -11,6 +11,10 @@
   ; read test data when developing
   (is (= "correct" (:testdata2 *config*)))
 
-  ; read environment variable
-  (is (= 0 (.indexOf (:testdata3 *config*) "/home"))))
+  ; read environmental variable
+  (is (= 0 (.indexOf (:testdata3 *config*) "/home")))
+
+  ; read environmental variable with default value
+  (is (= "default_value" (:testdata4 *config*)))
+  (is (= "http://foo.bar.com:80" (:testdata5 *config*))))
 

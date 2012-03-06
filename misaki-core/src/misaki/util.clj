@@ -7,7 +7,10 @@
     ~else-part))
 
 (defn get-env
-  ([name] (get-env name nil))
+  ([name]
+   (let [[name & value] (str/split name #":")
+         value (if value (str/join ":" value))]
+     (get-env name value)))
   ([name default-value]
    (let [_name (str/replace-first name "$" "")]
      (get (System/getenv) _name default-value))))
