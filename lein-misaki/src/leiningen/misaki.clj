@@ -20,6 +20,9 @@
    "template/src/__PROJ__/app.clj"
    "template/test/__PROJ__/test/app.clj"])
 
+(def ^{:dynamic true} *heroku-files*
+  ["template/Procfile"])
+
 ;;From the maginalia source: http://fogus.me/fun/marginalia/ {{{
 (defn slurp-resource
   [resource-name]
@@ -59,13 +62,13 @@
   (replace-var (str/replace-first path "template" "__PROJ__")))
 ; }}}
 
-(defn create-directories []
-  (doseq [dir *directories*]
+(defn create-directories [directories]
+  (doseq [dir directories]
     (mkdir (replace-var dir))))
 
 
-(defn copy-files []
-  (doseq [path *files*]
+(defn copy-files [files]
+  (doseq [path files]
     (write-file (template-path->project-path path)
                 (replace-var (slurp-resource path) false))))
 
@@ -74,17 +77,30 @@
   [project-name]
   (when-not project-name
     (println "Project name is not specified.\n# lein misaki new PROJECT_NAME")
-    (System/exit 0) )
+    (System/exit 0))
 
   (reset! proj project-name)
   (reset! _proj (str/replace project-name "-" "_"))
 
   (println "Creating new misaki project:" project-name)
   (println "* Making directories")
-  (create-directories)
+  (create-directories *directories*)
   (println "* Copy files")
-  (copy-files)
+  (copy-files *files*)
   (println "Done"))
+
+(defn config
+  "Configure \"misaki\" project."
+  [target]
+  (when-not target
+    (println "Configure target is not specified.\n# lein misaki config TARGET")
+    (println "  TARGET: heroku")
+    (System/exit 0))
+
+  (case target
+    "heroku" (do (println "* Copy heroku files")
+                 (copy-files *heroku-files*))
+    (do (println "Unknown target:" target))))
 
 (defn misaki
   "Manage \"misaki\" projects."
@@ -93,5 +109,6 @@
   [& args]
   (case (first args)
     "new" (leiningen.misaki/new (second args))
+    "config" (leiningen.misaki/config (second args))
     (println (help-for "misaki"))))
 
