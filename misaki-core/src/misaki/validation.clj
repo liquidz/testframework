@@ -44,12 +44,6 @@
   `(binding [*validate-errors* (make-validation-atom)]
      ~@body))
 
-(defn wrap-validation
-  "ring middleware for validation"
-  [handler]
-  (fn [request]
-    (with-validation (handler request))))
-
 (defn required? [x]
   (and (not (nil? x))
        (not= x "")))

@@ -1,4 +1,4 @@
-(defproject misaki "0.0.8-alpha"
+(defproject misaki "0.0.8.1-alpha"
   :description "misaki - library package to build web application easily"
   :dependencies [[org.clojure/clojure "1.3.0"]
                  [compojure "1.0.1"]
