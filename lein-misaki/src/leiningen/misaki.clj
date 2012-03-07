@@ -89,18 +89,18 @@
   (copy-files *files*)
   (println "Done"))
 
-(defn config
-  "Configure \"misaki\" project."
-  [target]
-  (when-not target
-    (println "Configure target is not specified.\n# lein misaki config TARGET")
-    (println "  TARGET: heroku")
-    (System/exit 0))
-
-  (case target
-    "heroku" (do (println "* Copy heroku files")
-                 (copy-files *heroku-files*))
-    (do (println "Unknown target:" target))))
+;(defn config
+;  "Configure \"misaki\" project."
+;  [target]
+;  (when-not target
+;    (println "Configure target is not specified.\n# lein misaki config TARGET")
+;    (println "  TARGET: heroku")
+;    (System/exit 0))
+;
+;  (case target
+;    "heroku" (do (println "* Copy heroku files")
+;                 (copy-files *heroku-files*))
+;    (do (println "Unknown target:" target))))
 
 (defn misaki
   "Manage \"misaki\" projects."
@@ -109,6 +109,6 @@
   [& args]
   (case (first args)
     "new" (leiningen.misaki/new (second args))
-    "config" (leiningen.misaki/config (second args))
+;    "config" (leiningen.misaki/config (second args))
     (println (help-for "misaki"))))
 

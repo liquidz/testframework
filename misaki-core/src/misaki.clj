@@ -12,7 +12,7 @@
     [hiccup.page-helpers :as page]
     [ring.util.response :as res]))
 
-(declare misaki-app)
+;(declare misaki-app)
 
 ; application config file (config.properties)
 (def ^{:dynamic true
