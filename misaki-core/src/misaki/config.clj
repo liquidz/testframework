@@ -1,7 +1,5 @@
 (ns misaki.config
-  (:use
-    clojure.java.io
-    [misaki.util :only [get-env]])
+  (:use clojure.java.io)
   (:require [clojure.string :as str])
   (:import [java.util Properties]))
 
@@ -18,7 +16,17 @@
   [key]
   (keyword (str/replace-first (name key) "@test-" "")))
 
-(defn- merge-test-config
+(defn get-env
+  "get environmental variable"
+  ([name]
+   (let [[name & value] (str/split name #":")
+         value (if value (str/join ":" value))]
+     (get-env name value)))
+  ([name default-value]
+   (let [_name (str/replace-first name "$" "")]
+     (get (System/getenv) _name default-value))))
+
+(defn merge-test-config
   "merge config setting to real setting if mode is develop"
   [config]
   (if (not= "develop" (:mode config))
@@ -27,7 +35,9 @@
           newdata (into {} (map #(vector (test->real %) (% config)) test-keys))]
       (merge config newdata))))
 
-(defn- expand-environmental-variables [config]
+(defn expand-environmental-variables
+  "expand environmental variable in config properties"
+  [config]
   (into {} (for [[k v] config]
              [k (if (.startsWith v "$") (get-env v) v)])))
 

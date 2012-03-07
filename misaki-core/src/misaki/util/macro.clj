@@ -1,5 +1,10 @@
 (ns misaki.util.macro)
 
+(defmacro aif [pred then-part & [else-part]]
+  `(if-let [~'it ~pred]
+    ~then-part
+    ~else-part))
+
 (defmacro clone-macros
   "clone macros in specified namespace."
   [namespace & names]

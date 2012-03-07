@@ -2,7 +2,7 @@
   "miski view"
   (:use
     [misaki :only [*config*]]
-    [misaki.util :only [aif]])
+    [misaki.util.macro :only [aif]])
   (:require [hiccup.page-helpers :as page]))
 
 (def ^{:dynamic true

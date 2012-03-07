@@ -3,7 +3,7 @@
   (:use
     [clojure.string :only [split]]
     [misaki :only [*config*]]
-    [misaki.util :only [aif]])
+    [misaki.util.macro :only [aif]])
   (:require
     [misaki.model.mongo :as mongo]
     [misaki.model.sql :as sql]))
