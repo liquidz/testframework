@@ -1,4 +1,4 @@
-(defproject misaki "0.0.9-alpha"
+(defproject misaki "0.0.9.1-alpha"
   :description "misaki - library package to build web application easily"
   :dependencies [[org.clojure/clojure "1.3.0"]
                  [compojure "1.0.1"]
@@ -28,5 +28,4 @@
 ;  :codox {:exclude [example.app server]}
 ;  ; /for example
 
-
-  :aot [misaki])
+  :aot [misaki.core])

@@ -1,4 +1,4 @@
-(ns misaki.middleware
+(ns misaki.server.middleware
   (:use
     [misaki.validation :only [with-validation]])
   (:require

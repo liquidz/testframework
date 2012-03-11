@@ -1,10 +1,10 @@
-(ns misaki.server
+(ns misaki.server.handler
   "misaki server utilities"
   (:use
-    [misaki.core       :only [dev-mode? misaki-app-symbol]]
-    [misaki.middleware :only [wrap-validation wrap-exception]]
-    [compojure.handler :only [site]]
-    [compojure.core    :only [routes HEAD ANY]])
+    [misaki.core              :only [dev-mode? misaki-app-symbol]]
+    [misaki.server.middleware :only [wrap-validation wrap-exception]]
+    [compojure.handler        :only [site]]
+    [compojure.core           :only [routes HEAD ANY]])
   (:require
     [compojure.route    :as route]
     [ring.util.response :as res]))
