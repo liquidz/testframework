@@ -1,8 +1,10 @@
-(in-ns 'misaki)
-
-(require
-  '[hiccup.page-helpers :as page]
-  '[ring.util.response :as res])
+(ns misaki.response
+  (:use
+    [misaki.core :only [*config*]]
+    )
+  (:require
+    [hiccup.page-helpers :as page]
+    [ring.util.response :as res]))
 
 (declare ^{:dynamic true} *response-filters*)
 
@@ -36,12 +38,12 @@
 (def ^{:dynamic true}
   *response-filters* (atom [compile-html]))
 
-(defn json
-  "compile clojure data to JSON"
-  [res]
-  (res/content-type
-    (res/response (json-str res))
-    "application/json"))
+;(defn json
+;  "compile clojure data to JSON"
+;  [res]
+;  (res/content-type
+;    (res/response (json-str res))
+;    "application/json"))
 
 (defn redirect
   "redirect specified url

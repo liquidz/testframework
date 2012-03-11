@@ -29,7 +29,7 @@
      (sql/init-mysql db-url))))
 
 ; auto initialize
-(case (:db *config*)
-  "mongo" (initialize-mongodb)
-  "mysql" (initialize-mysql)
-  nil)
+;(case (:db *config*)
+;  "mongo" (initialize-mongodb)
+;  "mysql" (initialize-mysql)
+;  nil)

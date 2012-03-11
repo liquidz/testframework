@@ -14,6 +14,11 @@
          (cons '~origin args#)))))
 
 
+(defmacro fn-alias [original-fs & alias-names]
+  (cons 'do (map (fn [name]
+                   `(def ~name ~original-fs)
+                   ) alias-names)))
+
 (defmacro wrap-compojure-method [method]
   (let [sym (symbol (str "compojure.core/" method))]
     `(defmacro ~method

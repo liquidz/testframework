@@ -11,20 +11,21 @@
                  ; for sql
                  [clojureql "1.0.3"]
                  ; for mysql
+                 [korma "0.2.1"]
                  [mysql/mysql-connector-java "5.1.13"]]
 
-  :dev-dependencies [[codox "0.4.1"]
-                     [ring-mock "0.1.1"]]
+;  :dev-dependencies [[codox "0.4.1"]
+;                     [ring-mock "0.1.1"]]
 
   ; for example
-;  :dev-dependencies [[lein-ring "0.5.4"]
-;                     [ring-mock "0.1.1"]
-;                     ; doc
-;                     [codox "0.4.1"]
-;                     ]
-;  :ring {:handler server/handler}
-;  :main server
-;  :codox {:exclude [example.app server]}
+  :dev-dependencies [[lein-ring "0.5.4"]
+                     [ring-mock "0.1.1"]
+                     ; doc
+                     [codox "0.4.1"]
+                     ]
+  :ring {:handler exampleserver/handler}
+  :main exampleserver
+  :codox {:exclude [example.app server]}
   ; /for example
 
 

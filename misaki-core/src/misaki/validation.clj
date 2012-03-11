@@ -1,4 +1,4 @@
-(in-ns 'misaki)
+(ns misaki.validation)
 
 (declare
   ^{:dynamic true
