@@ -1,4 +1,4 @@
-(ns misaki.model.common)
+(ns misaki.config.common)
 
 (defn parse-db-url
   "parses db url. eg. mongodb://user:password@localhost:1234/db"
@@ -7,5 +7,3 @@
     (when (.find matcher)
       (zipmap [:match :subprotocol :subname :user :password :host :port :db]
               (re-groups matcher)))))
-
-

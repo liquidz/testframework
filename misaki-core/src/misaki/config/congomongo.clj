@@ -1,13 +1,9 @@
-(ns misaki.model.mongo
+(ns misaki.config.congomongo
   (:use
-    [misaki.model.common :only [parse-db-url]]
+    [misaki.core :only [*config*]]
+    [misaki.config.common :only [parse-db-url]]
     somnium.congomongo
     [somnium.congomongo.config :only [*mongo-config*]]))
-
-(defn not-initialized?
-  "return whether mongodb is initialized or not"
-  []
-  (nil? (:mongo *mongo-config*)))
 
 (defn init-mongodb [mongo-url]
   "Checks if connection and collection exist, otherwise initialize."
@@ -16,10 +12,6 @@
       (mongo! :db (:db config) :host (:host config) :port (Integer. (:port config)))
       (authenticate (:user config) (:password config)))))
 
-(defn create-mongo-collections
-  "create mongo collecions"
-  [collections]
-  (doseq [col-name collections]
-    (if-not (collection-exists? col-name)
-      (create-collection! col-name))))
-
+; auto initialize
+(when-let [db-url (:db-url *config*)]
+  (init-mongodb db-url))
