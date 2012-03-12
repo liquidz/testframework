@@ -1,13 +1,17 @@
 (ns misaki.test.model
   (:use [clojure.test]
-        [misaki :only [*config*]]
-        misaki.model
-        somnium.congomongo)
-  (:require
-    [clojureql.core :as sql]))
+        [misaki.core :only [*config*]]
+        [misaki.config congomongo korma]
+;        misaki.model
+        somnium.congomongo
+        korma.core
+        )
+ ; (:require
+ ;   [clojureql.core :as sql])
+  )
 
 (deftest mongo-model-test
-  (initialize-mongodb (:test-mongo-url *config*))
+  (init-congomongo (:test-mongo-url *config*))
 
   (drop-coll! :test)
   (create-collection! :test)
@@ -18,15 +22,16 @@
   (is (contains? (fetch-one :test) :hello))
   (is (= "world" (:hello (fetch-one :test)))))
 
+(defentity test-tbl (table :test))
+
 (deftest mysql-model-test
-  (initialize-mysql (:test-mysql-url *config*))
+  (init-korma (:test-mysql-url *config*))
 
-  (let [tbl (sql/table :test)]
-    (sql/disj! tbl (sql/where (>= :id 0)))
-    (is (zero? (count @tbl)))
+  (delete test-tbl)
+  (is (zero? (count (select test-tbl))))
 
-    (sql/conj! tbl {:name "hello"})
-    (sql/conj! tbl {:name "world"})
+  (insert test-tbl (values {:name "hello"}))
+  (insert test-tbl (values {:name "world"}))
+  (is (= 2 (count (select test-tbl))))
 
-    (is (= 2 (count @tbl)))
-    (is (= "hello" (:name (first @(sql/take (sql/sort tbl [:id]) 1)))))))
+  (is (= "hello" (:name (first (select test-tbl (order :id :ASC)))))))

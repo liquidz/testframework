@@ -1,6 +1,6 @@
 (ns misaki.test.config
   (:use [clojure.test]
-        [misaki :only [*config*]]))
+        [misaki.core :only [*config*]]))
 
 (deftest config-test
   (is (not (nil? *config*)))

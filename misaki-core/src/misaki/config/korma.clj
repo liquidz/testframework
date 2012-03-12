@@ -1,9 +1,7 @@
 (ns misaki.config.korma
   (:use
-    [misaki.core :only [*config*]]
-    [misaki.config.common :only [parse-db-url]]
-    [korma.db :only [defdb postgres mysql]]
-    ))
+    [misaki.config.common :only [parse-db-url get-db-url]]
+    [korma.db :only [defdb postgres mysql]]))
 
 (def ^{:dynamic true} *db* (atom nil))
 
@@ -13,7 +11,7 @@
                 "mysql" mysql
                 "postgres" postgres
                 nil)]
-    (when db-fn
+    (when (and db-fn (nil? @*db*))
       (defdb db (db-fn {:db (:db config)
                       :host (:host config)
                       :port (:port config)
@@ -21,7 +19,7 @@
                       :password (:password config)}))
       (reset! *db* db))))
 
-(aif (:db-url *config*)
-  (init-korma it))
-
+; auto initialize
+(when-let [url (get-db-url)]
+  (init-korma url))
 

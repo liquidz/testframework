@@ -62,7 +62,7 @@
   (if-not (map? opt)
     (apply ul {} opt ls)
     [:ul opt (for [x ls]
-               (if (tag? x)
+               (if (and (tag? x) (= :ul (first x)))
                  x
                  [:li x]))]))
 
@@ -72,7 +72,7 @@
   (if-not (map? opt)
     (apply ol {} opt ls)
     [:ol opt (for [x ls]
-               (if (tag? x)
+               (if (and (tag? x) (= :ul (first x)))
                  x
                  [:li x]))]))
 
@@ -171,9 +171,23 @@
     [:select opt options]))
 
 (defn anchor
-  ([href text] (anchor {} link text))
+  ([href text] (anchor {} href text))
   ([opt href text] [:a (merge opt {:href href}) text]))
-(ns-alias anchor link)
+(fn-alias anchor link)
+
+(defn set-attr [elem key value]
+  (if (map? (second elem))
+    (let [opt (second elem)]
+      [(first elem)
+       (merge opt {key value})
+       (nnext elem)])
+    (set-attr [(first elem) {} (rest elem)] key value)))
+
+(defn set-class [elem klass]
+  (set-attr elem :class klass))
+
+(defn set-id [elem id] (set-attr elem :id id))
+
 
 
 ; navigation

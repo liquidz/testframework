@@ -1,5 +1,5 @@
 (ns misaki.test.validation
-  (:use misaki)
+  (:use misaki.validation)
   (:use [clojure.test]))
 
 (deftest validation-test
