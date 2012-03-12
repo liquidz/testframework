@@ -170,6 +170,11 @@
     (apply select {} opt options)
     [:select opt options]))
 
+(defn anchor
+  ([href text] (anchor {} link text))
+  ([opt href text] [:a (merge opt {:href href}) text]))
+(ns-alias anchor link)
+
 
 ; navigation
 ; inline label
