@@ -24,27 +24,21 @@
   :handler
       list of user handlers
       ex) :handler [my-handler1 my-handler2]"
-  [& {:keys [files not-found server-error handler]
-      :or   {files "/", handler []}}]
+  [& {:keys [files not-found server-error]
+      :or   {files "/"}}]
 
-  `(let [app# (if ~dev-mode? #(~misaki-app-symbol %) ~misaki-app-symbol)
-         nf#  (if ~dev-mode? #(~not-found %) ~not-found)
-         se#  (if ~dev-mode? #(~server-error % %2) ~server-error)
-         hs#  (map (fn [h#] (if ~dev-mode? #(h# %) h#)) ~handler)]
-
+  `(let [app# (if ~dev-mode? #(~misaki-app-symbol %) ~misaki-app-symbol)]
      (routes
        ; main routes
        (-> app#
-         site wrap-validation
+         site
+         wrap-validation
          (wrap-exception
            (fn [req# err#]
-             (res/status (res/response (se# req# err#)) 500))))
-       ; user specified routes
-       (apply routes hs#)
+             (res/status (res/response (~server-error req# err#)) 500))))
        ; static file routes
        (route/files ~files)
        ; not found routes
-       (HEAD "*" req# (res/status (res/response (nf# req#)) 404))
-       (ANY  "*" req# (res/status (res/response (nf# req#)) 404)))))
-
+       (HEAD "*" req# (res/status (res/response (~not-found req#)) 404))
+       (ANY  "*" req# (res/status (res/response (~not-found req#)) 404)))))
 

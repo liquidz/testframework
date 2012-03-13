@@ -10,14 +10,19 @@
 
 ; application config file (config.properties)
 (def ^{:dynamic true
-       :doc "config property data (config.properties)"}
-  *config* (load-config "config"))
+       :doc "config property data (misaki.properties)"}
+  *config* (load-config "conf/misaki"))
 
 (def ^{:doc "whether develop mode or not"}
   dev-mode? (= "develop" (:mode *config*)))
 
 (def; ^{:dynamic true}
   misaki-app-symbol 'misaki-app)
+
+(def ^{:dynamic true} *message* (load-config "conf/message"))
+(def message (if dev-mode?
+               (fn [key] (get (load-config "conf/message") key ""))
+               (fn [key] (get *message* key ""))))
 
 ; clone compojure routes
 (clone-macros
@@ -59,3 +64,7 @@
     (if (nil? opt)
       loc
       (merge loc (apply hash-map opt)))))
+
+
+
+
